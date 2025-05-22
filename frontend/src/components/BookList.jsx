@@ -1,5 +1,5 @@
 // În BookList.jsx
-import React, { useEffect, useState } from "react";
+import React from "react";
 import BookForm from "./BookForm";
 import "../styles.css";
 function BookList({ books, onDelete, onEdit }) {

@@ -13,7 +13,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// 🔗 /api/books
 app.use("/api/books", booksRouter);
 
 app.get("/", (req, res) => {

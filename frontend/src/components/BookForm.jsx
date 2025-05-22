@@ -40,7 +40,7 @@ function BookForm({ book, onFinish }) {
   //(***)
   return (
     <form onSubmit={handleSubmit}>
-      <h2>{book ? " Editeaza cartea" : "Adauga carte noua"}</h2>
+      <h2>{book ? "Editeaza cartea" : "Adauga carte noua"}</h2>
       <div class="formular">
         <input
           type="text"
