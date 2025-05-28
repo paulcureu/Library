@@ -2,9 +2,11 @@
 import React from "react";
 import BookForm from "./BookForm";
 import "../styles.css";
+const API_URL = import.meta.env.VITE_API_URL || "/api";
+
 function BookList({ books, onDelete, onEdit }) {
   const handleDelete = async (id) => {
-    await fetch(`/api/books/${id}`, { method: "DELETE" });
+    await fetch(`${API_URL}/books/${id}`, { method: "DELETE" });
     onDelete?.();
   };
 

@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "../styles.css";
+
+const API_URL = import.meta.env.VITE_API_URL || "/api";
+
 function BookForm({ book, onFinish }) {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -18,14 +21,14 @@ function BookForm({ book, onFinish }) {
     if (book) {
       //fetch este o functie care face HTTP(GET,PUT,POST, DELETE)
       // MODIFICARE
-      await fetch(`/api/books/${book.id}`, {
+      await fetch(`${API_URL}/books/${book.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title, author }),
       });
     } else {
       // ADAUGARE
-      await fetch("/api/books", {
+      await fetch(`${API_URL}/books`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title, author }),

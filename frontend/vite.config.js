@@ -6,7 +6,11 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      "/api": "https://library-production-4143.up.railway.app/",
+      "/api": {
+        target: "https://library-production-4143.up.railway.app",
+        changeOrigin: true,
+        secure: false,
+      },
     },
   },
 });

@@ -2,13 +2,16 @@ import React, { useEffect, useState } from "react";
 import BookList from "./components/BookList";
 import BookForm from "./components/BookForm";
 import "./styles.css";
+
+const API_URL = import.meta.env.VITE_API_URL || "/api";
+
 //App() componenta "parinte", aceasta gestioneaza starea principala a aplicatiei si coordoneaza interactiunea dintre BookForm si BookList
 function App() {
   const [books, setBooks] = useState([]); // in books luam toate cartile din back-end, le-am initializat ca o lsita goala.
 
   //functie asincrona care face o cerere GET catre "/api/books"(endpoint din backend)
   const fetchBooks = async () => {
-    const res = await fetch("/api/books"); //cerere GET
+    const res = await fetch(`${API_URL}/books`); //cerere GET
     const data = await res.json(); //backend ul returneaza o lista de carti .JSON
     setBooks(data); // actualizeaza state-ul/starea books cu datele primite
   };
