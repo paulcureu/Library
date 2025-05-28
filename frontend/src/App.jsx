@@ -44,8 +44,8 @@ function App() {
   };
 
   return (
-    <div class="main-body">
-      <h1 class="title">Librarie</h1>
+    <div className="main-body">
+      <h1 className="title">Librarie</h1>
       <BookForm book={selectedBook} onFinish={finishEditing} />
       <BookList books={books} onDelete={fetchBooks} onEdit={startEditing} />
     </div>

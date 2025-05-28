@@ -15,13 +15,13 @@ function BookList({ books, onDelete, onEdit }) {
   return (
     <ul>
       {books.map((book) => (
-        <li class="book" key={book.id}>
-          <div class="bk-des">
+        <li className="book" key={book.id}>
+          <div className="bk-des">
             <strong>Titlu:</strong>
             {book.title} <strong>Autor:</strong>
             {book.author}
           </div>
-          <div class="btn">
+          <div className="btn">
             <button onClick={() => handleDelete(book.id)}>Sterge</button>
             <button onClick={() => handleEdit(book)}>Editează</button>
           </div>
