@@ -24,7 +24,7 @@ function BookList({ books, onDelete, onEdit }) {
             {book.author}
           </div>
           <div className="btn">
-            <button onClick={() => handleDelete(book.id)}>Sterge</button>
+            <button onClick={() => handleDelete(book.id)}>Șterge</button>
             <button onClick={() => handleEdit(book)}>Editează</button>
           </div>
         </li>
