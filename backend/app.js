@@ -5,7 +5,11 @@ const app = express();
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:5173"],
+    origin: [
+      "http://localhost:3000",
+      "https://library-kohl-rho.vercel.app",
+      "http://localhost:5173",
+    ],
   })
 );
 app.use(express.json());
