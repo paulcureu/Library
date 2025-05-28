@@ -3,15 +3,25 @@ from tkinter import messagebox
 import json
 import os
 import uuid
+import subprocess
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_FILE = os.path.join(BASE_DIR, "..", "data", "books.json")
 
-# Asiguram ca fisierul JSON exista
+
+
+# asiguram ca fisierul JSON exista
 os.makedirs(os.path.dirname(DATA_FILE), exist_ok=True)
 if not os.path.isfile(DATA_FILE):
     with open(DATA_FILE, "w") as f:
         json.dump([], f)
+
+#functie care sincronizeaza DB-ul postgreSQL
+def sync_with_database():
+    try:
+        result = subprocess.run(["node", "../seeds/seedBooks.js"], check=True, capture_output=True, text=True)
+    except subprocess.CalledProcessError as e:
+        print("Error sinc DB:", e.stderr)
 
 def load_data():
     with open(DATA_FILE, "r", encoding="utf-8") as f:
@@ -72,12 +82,14 @@ class CatalogApp:
             del self.data[self.selected_index]
             save_data(self.data)
             self.refresh_list()
+            sync_with_database()
 
     def save_new_entry(self, new_entry):
         new_entry["id"] = str(uuid.uuid4())
         self.data.append(new_entry)
         save_data(self.data)
         self.refresh_list()
+        sync_with_database()
 
     def save_edited_entry(self, updated_entry):
         old_id = self.data[self.selected_index]["id"]
@@ -85,6 +97,7 @@ class CatalogApp:
         self.data[self.selected_index] = updated_entry
         save_data(self.data)
         self.refresh_list()
+        sync_with_database()
 
 class EntryForm(tk.Toplevel):
     def __init__(self, master, on_save, data=None):

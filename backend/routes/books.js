@@ -1,57 +1,89 @@
 const express = require("express");
-const fs = require("fs");
-const path = require("path");
+const db = require("../db/db");
+const crypto = require("crypto");
+const { loadBooksJSON, saveBooksJSON } = require("../utils/json"); // dacă le muți în `utils/json.js`
 
 const router = express.Router();
-const filePath = path.join(__dirname, "../data/books.json");
 
-function loadBooks() {
-  const data = fs.readFileSync(filePath, "utf-8");
-  return JSON.parse(data);
-}
-
-function saveBooks(books) {
-  fs.writeFileSync(filePath, JSON.stringify(books, null, 2), "utf-8");
-}
-
-router.get("/", (req, res) => {
-  const books = loadBooks();
-  res.json(books);
+// ✅ GET din PostgreSQL
+router.get("/", async (req, res) => {
+  try {
+    const result = await db.query("SELECT * FROM books");
+    res.json(result.rows);
+  } catch (err) {
+    console.error("GET error:", err);
+    res.status(500).json({ error: "Eroare la citire din DB" });
+  }
 });
 
-router.post("/", (req, res) => {
-  const books = loadBooks();
+// ✅ POST -> PostgreSQL + JSON
+router.post("/", async (req, res) => {
   const { title, author } = req.body;
-  const newBook = { id: crypto.randomUUID(), title, author };
-  books.push(newBook);
-  saveBooks(books);
-  res.status(201).json(newBook);
+  const id = crypto.randomUUID();
+  try {
+    const result = await db.query(
+      "INSERT INTO books (id, title, author) VALUES ($1, $2, $3) RETURNING *",
+      [id, title, author]
+    );
+
+    const jsonBooks = loadBooksJSON();
+    jsonBooks.push({ id, title, author });
+    saveBooksJSON(jsonBooks);
+
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.error("POST error:", err);
+    res.status(500).json({ error: "Eroare la adăugare" });
+  }
 });
-//edit
-router.put("/:id", (req, res) => {
-  const books = loadBooks();
-  const id = req.params.id;
+
+// ✅ PUT -> PostgreSQL + JSON
+router.put("/:id", async (req, res) => {
+  const { id } = req.params;
   const { title, author } = req.body;
 
-  const index = books.findIndex((b) => b.id === id);
-  if (index === -1) return res.status(404).json({ message: "Not found" });
+  try {
+    const result = await db.query(
+      "UPDATE books SET title = $1, author = $2 WHERE id = $3 RETURNING *",
+      [title, author, id]
+    );
+    if (result.rowCount === 0)
+      return res.status(404).json({ message: "Nu există cartea" });
 
-  books[index] = { ...books[index], title, author };
-  saveBooks(books);
-  res.json(books[index]);
+    // sincronizează JSON
+    const jsonBooks = loadBooksJSON();
+    const index = jsonBooks.findIndex((b) => b.id === id);
+    if (index !== -1) {
+      jsonBooks[index] = { id, title, author };
+      saveBooksJSON(jsonBooks);
+    }
+
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error("PUT error:", err);
+    res.status(500).json({ error: "Eroare la actualizare" });
+  }
 });
 
-router.delete("/:id", (req, res) => {
-  let books = loadBooks();
-  const id = req.params.id;
-  const initialLength = books.length;
+// ✅ DELETE -> PostgreSQL + JSON
+router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
 
-  books = books.filter((b) => b.id !== id);
-  if (books.length === initialLength)
-    return res.status(404).json({ message: "Not found" });
+  try {
+    const result = await db.query("DELETE FROM books WHERE id = $1", [id]);
+    if (result.rowCount === 0)
+      return res.status(404).json({ message: "Nu există cartea" });
 
-  saveBooks(books);
-  res.json({ message: "Deleted" });
+    // sincronizează JSON
+    let jsonBooks = loadBooksJSON();
+    jsonBooks = jsonBooks.filter((b) => b.id !== id);
+    saveBooksJSON(jsonBooks);
+
+    res.json({ message: "Carte ștearsă" });
+  } catch (err) {
+    console.error("DELETE error:", err);
+    res.status(500).json({ error: "Eroare la ștergere" });
+  }
 });
 
 module.exports = router;
