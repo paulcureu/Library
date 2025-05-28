@@ -1,11 +1,11 @@
 const express = require("express");
 const db = require("../db/db");
 const crypto = require("crypto");
-const { loadBooksJSON, saveBooksJSON } = require("../utils/json"); // dacă le muți în `utils/json.js`
+const { loadBooksJSON, saveBooksJSON } = require("../utils/json");
 
 const router = express.Router();
 
-// ✅ GET din PostgreSQL
+// GET din PostgreSQL
 router.get("/", async (req, res) => {
   try {
     const result = await db.query("SELECT * FROM books");
@@ -16,7 +16,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// ✅ POST -> PostgreSQL + JSON
+//  POST -> PostgreSQL + JSON
 router.post("/", async (req, res) => {
   const { title, author } = req.body;
   const id = crypto.randomUUID();
@@ -37,7 +37,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// ✅ PUT -> PostgreSQL + JSON
+//PUT -> PostgreSQL + JSON
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
   const { title, author } = req.body;
@@ -50,7 +50,7 @@ router.put("/:id", async (req, res) => {
     if (result.rowCount === 0)
       return res.status(404).json({ message: "Nu există cartea" });
 
-    // sincronizează JSON
+    // sincronizeaza JSON
     const jsonBooks = loadBooksJSON();
     const index = jsonBooks.findIndex((b) => b.id === id);
     if (index !== -1) {
@@ -65,7 +65,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// ✅ DELETE -> PostgreSQL + JSON
+//DELETE -> PostgreSQL + JSON
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
 

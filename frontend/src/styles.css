@@ -1,64 +1,206 @@
-body {
-  margin: 0; /* elimină cei 8 px din jurul paginii */
-  background-color: rgba(150, 103, 16, 0.356);
-}
-.title {
+/* General Resets and Base Styles */
+* {
+  box-sizing: border-box;
   margin: 0;
-  padding-top: 20px;
+  padding: 0;
 }
-.main-body {
-  margin-top: 0; /* dacă vrei să fii sigur că div-ul nu adaugă alt spaţiu */
-  border: none;
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  background-color: #f4f7f6;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.container {
+  width: 100%;
+  max-width: 800px; /* Max width for larger screens */
+  margin: 0 auto; /* Center the content */
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.title {
   text-align: center;
+  color: #2c3e50;
+  margin-bottom: 30px;
+  font-size: 2.5em;
 }
+
+/* Form Styling */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+form h2 {
+  text-align: center;
+  color: #34495e;
+  margin-bottom: 15px;
+  font-size: 1.8em;
+}
+
 .formular {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  text-align: center;
-}
-.formular > input[type="text"] {
-  width: 30%;
-  padding: 12px 20px;
-  margin: 0 50% 1% 34%;
-  border: 2px solid rgb(0, 38, 255);
-  font-family: cursive;
-  border-radius: 12px;
+  gap: 10px;
 }
 
+.formular input[type="text"] {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1em;
+  transition: border-color 0.3s ease;
+}
+
+.formular input[type="text"]:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+}
+
+/* Button Styling */
 button {
-  background-color: #041daa;
+  background-color: #3498db;
+  color: white;
   border: none;
-  border-radius: 12px;
-  transition-duration: 0.4s;
-  color: rgb(255, 255, 255);
-  padding: 15px 32px;
+  border-radius: 6px;
+  padding: 12px 20px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
+  font-size: 1em;
+  font-weight: bold;
   cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  align-self: center; /* Center button in the form */
 }
+
 button:hover {
-  background-color: #12aa04; /* Green */
-  color: white;
+  background-color: #2980b9;
+  transform: translateY(-1px);
 }
+
+button:active {
+  transform: translateY(0);
+}
+
+/* Book List Styling */
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
 .book {
   display: flex;
-  margin-top: 2%;
-  gap: 12%;
-  justify-content: center;
+  flex-direction: column; /* Stack items vertically on small screens initially */
+  justify-content: space-between;
+  align-items: flex-start; /* Align items to the start */
+  background-color: #ecf0f1;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.book:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.bk-des {
+  font-size: 1.1em;
+  color: #2c3e50;
+  margin-bottom: 10px;
+  word-break: break-word;
+}
+
+.bk-des strong {
+  color: #34495e;
+  margin-right: 5px;
 }
 
 .btn {
   display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: flex-start;
 }
-.bk-des {
-  padding: 7px;
-  background-color: #12aa04;
-  border-radius: 10px;
-  display: flex;
-  font-size: 30px;
-  gap: 2%;
+
+.btn button {
+  padding: 8px 15px;
+  font-size: 0.9em;
+}
+
+.btn button:first-of-type {
+  background-color: #e74c3c;
+}
+
+.btn button:first-of-type:hover {
+  background-color: #c0392b;
+}
+
+.btn button:last-of-type {
+  background-color: #f39c12;
+}
+
+.btn button:last-of-type:hover {
+  background-color: #e67e22;
+}
+
+@media (min-width: 600px) {
+  .book {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .bk-des {
+    margin-bottom: 0;
+    flex-grow: 1;
+    margin-right: 15px;
+  }
+
+  .btn {
+    width: auto;
+    justify-content: flex-end;
+  }
+
+  form {
+    padding: 30px;
+  }
+
+  .formular input[type="text"] {
+    font-size: 1.1em;
+  }
+
+  button {
+    font-size: 1.1em;
+  }
+}
+
+/* Desktop */
+@media (min-width: 769px) {
+  .title {
+    font-size: 3em;
+  }
+
+  form h2 {
+    font-size: 2em;
+  }
 }

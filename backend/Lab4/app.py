@@ -12,17 +12,17 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_FILE = os.path.join(BASE_DIR, "..", "data", "books.json")
 
 
-# Asigurăm că fișierul JSON există
+# Asiguram ca fisierul JSON exista
 os.makedirs(os.path.dirname(DATA_FILE), exist_ok=True)
 if not os.path.isfile(DATA_FILE):
     with open(DATA_FILE, "w") as f:
         json.dump([], f)
 
-# Funcție care sincronizează DB-ul PostgreSQL
+# Functie care sincronizeaza DB-ul PostgreSQL
 def sync_with_database():
     try:
         subprocess.run(["node", "../seeds/seedBooks.js"], check=True, capture_output=True, text=True)
-        print("✅ Sincronizare cu DB realizată.")
+        print("✅ Sincronizare cu DB realizata.")
     except subprocess.CalledProcessError as e:
         print("❌ Eroare sincronizare DB:", e.stderr)
 
@@ -34,7 +34,7 @@ def save_data(data):
     with open(DATA_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
-# 🔄 Detectează modificări externe în JSON
+# 🔄 Detecteaza modificari externe in JSON
 class JSONChangeHandler(FileSystemEventHandler):
     def __init__(self, app):
         self.app = app
@@ -44,14 +44,14 @@ class JSONChangeHandler(FileSystemEventHandler):
             try:
                 self.app.data = load_data()
                 self.app.refresh_list()
-                print("🔄 JSON extern modificat. Aplicația a fost actualizată.")
+                print("🔄 JSON extern modificat. Aplicatia a fost actualizata.")
             except Exception as e:
-                print("❌ Eroare la reîncărcare JSON:", e)
+                print("❌ Eroare la reincarcare JSON:", e)
 
 class CatalogApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Catalog Cărți")
+        self.root.title("Catalog Carti")
 
         self.data = load_data()
         self.selected_index = None
@@ -66,9 +66,9 @@ class CatalogApp:
         self.button_frame = tk.Frame(self.main_frame)
         self.button_frame.pack(side=tk.RIGHT, fill=tk.Y)
 
-        tk.Button(self.button_frame, text="Adaugă", command=self.add_entry).pack(fill=tk.X)
-        tk.Button(self.button_frame, text="Editează", command=self.edit_entry).pack(fill=tk.X)
-        tk.Button(self.button_frame, text="Șterge", command=self.delete_entry).pack(fill=tk.X)
+        tk.Button(self.button_frame, text="Adauga", command=self.add_entry).pack(fill=tk.X)
+        tk.Button(self.button_frame, text="Editeaza", command=self.edit_entry).pack(fill=tk.X)
+        tk.Button(self.button_frame, text="Sterge", command=self.delete_entry).pack(fill=tk.X)
 
         self.refresh_list()
 
@@ -86,16 +86,16 @@ class CatalogApp:
 
     def edit_entry(self):
         if self.selected_index is None:
-            messagebox.showwarning("Selectează", "Selectează o carte pentru editare.")
+            messagebox.showwarning("Selecteaza", "Selecteaza o carte pentru editare.")
             return
         entry = self.data[self.selected_index]
         EntryForm(self.root, self.save_edited_entry, entry)
 
     def delete_entry(self):
         if self.selected_index is None:
-            messagebox.showwarning("Selectează", "Selectează o carte pentru ștergere.")
+            messagebox.showwarning("Selecteaza", "Selecteaza o carte pentru stergere.")
             return
-        if messagebox.askyesno("Confirmare", "Ești sigur că vrei să ștergi această carte?"):
+        if messagebox.askyesno("Confirmare", "Esti sigur ca vrei sa stergi aceasta carte?"):
             del self.data[self.selected_index]
             save_data(self.data)
             self.refresh_list()
@@ -137,14 +137,14 @@ class EntryForm(tk.Toplevel):
             self.entry1.insert(0, data['title'])
             self.entry2.insert(0, data['author'])
 
-        self.btn = tk.Button(self, text="Salvează", command=self.save)
+        self.btn = tk.Button(self, text="Salveaza", command=self.save)
         self.btn.pack(pady=10)
 
     def save(self):
         title = self.entry1.get().strip()
         author = self.entry2.get().strip()
         if not title or not author:
-            messagebox.showerror("Eroare", "Toate câmpurile sunt obligatorii!")
+            messagebox.showerror("Eroare", "Toate campurile sunt obligatorii!")
             return
         self.on_save({"title": title, "author": author})
         self.destroy()
@@ -154,7 +154,7 @@ if __name__ == '__main__':
     root.geometry("800x500")
     app = CatalogApp(root)
 
-    # 🔄 Pornește watchdog
+    # 🔄 Porneste watchdog
     event_handler = JSONChangeHandler(app)
     observer = Observer()
     observer.schedule(event_handler, path=os.path.dirname(DATA_FILE), recursive=False)
