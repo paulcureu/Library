@@ -17,6 +17,21 @@ function App() {
     fetchBooks();
   }, []);
 
+  // este un pooling periodic, React face cereri HTTP la backend, la fiecare 5 secunde, INEFICIENT, o idee mai buna ar fi WebSocket cu socket.io
+  //dar am zis totusi sa dau eu refresh la pagina:)))
+  /*
+  ------------------------------------------------------
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetch("/api/books")
+        .then((res) => res.json())
+        .then((data) => setBooks(data));
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+  ------------------------------------------------------------------
+*/
+
   const [selectedBook, setSelectedBook] = useState(null); // obiect care va contine detaliile cartii selectate
   // daca o carte a fost selectata prin butonul Edit, atunci selectedBook nu o sa mai fie null si componenta BookForm afiseaza formularul pentru cartea selectata, pentru edit
   const startEditing = (book) => {
