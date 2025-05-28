@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://library-production-4143.up.railway.app",
+        target: "http://localhost:3000",
         changeOrigin: true,
         secure: false,
       },
