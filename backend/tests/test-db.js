@@ -8,10 +8,10 @@ const db = new Pool({
 async function testConnection() {
   try {
     const result = await db.query("SELECT NOW()");
-    console.log("✅ Conexiune reușită la PostgreSQL:", result.rows[0].now);
+    console.log("Conexiune reusita la PostgreSQL:", result.rows[0].now);
     process.exit(0);
   } catch (err) {
-    console.error("❌ Eroare conexiune:", err);
+    console.error("Eroare conexiune:", err);
     process.exit(1);
   }
 }
