@@ -59,7 +59,7 @@ function BookForm({ book, onFinish }) {
         />
       </div>
 
-      <button type="submit">{book ? "Salveaza modificarile" : "Adauga"}</button>
+      <button type="submit">{book ? "Salveaza modificarile" : "Adaugă"}</button>
     </form>
   );
 }
