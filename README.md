@@ -1,84 +1,116 @@
-project:
-  name: "📚 Library Project"
-  description: >
-    Un proiect full-stack pentru gestionarea unei librării — cu 🧠 backend în Express + PostgreSQL 
-    și ⚛️ frontend în React + Vite.
+# 📚 Library App
 
-structure:
-  - folder: backend
-    description: "API + baza de date PostgreSQL"
-  - folder: frontend
-    description: "Interfață React cu Vite"
-  - folder: data
-    description: "Fișier JSON sincronizat cu baza de date"
+Un proiect full-stack pentru gestionarea unei biblioteci, construit cu **Express.js** pentru backend și **React** pentru frontend. 📖
 
-functionalities:
-  - "🔍 Vizualizare listă cărți"
-  - "➕ Adăugare carte nouă"
-  - "✏️ Editare carte existentă"
-  - "❌ Ștergere carte"
-  - "🔁 Sincronizare JSON ↔️ PostgreSQL"
+---
 
-technologies:
-  backend:
-    - Node.js: "Server backend"
-    - Express.js: "Rute API"
-    - PostgreSQL: "Bază de date relațională"
-    - dotenv: "Configurații ascunse (.env)"
-    - cors: "Permisiuni între domenii"
-    - uuid: "Generare ID unic"
-  frontend:
-    - React: "Frontend interactiv"
-    - Vite: "Bundler rapid pentru React"
+## 🧱 Arhitectură
 
-run_local:
-  backend:
-    env_file: |
-      DATABASE_URL=postgresql://user:parola@host:port/dbname
-      PORT=3000
-    commands:
-      - cd backend
-      - npm install
-      - npm start
-  frontend:
-    env_file: |
-      VITE_API_URL=http://localhost:3000/api
-    commands:
-      - cd frontend
-      - npm install
-      - npm run dev
+```
+📁 backend
+├── data/            # Fișiere de date (JSON sau DB)
+├── db/              # Conexiuni și config baza de date
+├── routes/          # Rute Express (ex: /api/books)
+├── seeds/           # Scripturi pentru popularea bazei
+├── tests/           # Teste pentru API
+├── utils/           # Utilitare JSON etc.
+└── app.js           # Entry point backend
 
-deploy:
-  backend:
-    platform: Railway
-    variables:
-      - DATABASE_URL
-    notes: "Asigură-te că backend-ul ascultă pe portul corect (3000)"
-  frontend:
-    platform: Vercel
-    variables:
-      - VITE_API_URL: "https://nume-backend.railway.app/api"
+📁 frontend
+├── src/
+│   ├── components/  # Componente React (form, listă)
+│   ├── App.jsx      # Componența principală
+│   ├── main.jsx     # Entry point React
+│   └── styles.css   # Stiluri globale
+└── index.html       # Root HTML
+```
 
-code_structure:
-  - file: routes/books.js
-    description: "Rutele API pentru cărți"
-  - file: db/db.js
-    description: "Conexiune la PostgreSQL"
-  - file: seeds/seedBooks.js
-    description: "Script inserare cărți demo"
-  - file: components/BookForm.jsx
-    description: "Formular adăugare/editare"
-  - file: components/BookList.jsx
-    description: "Listare cărți din DB"
-  - file: .env / .env.production
-    description: "Config variabile mediu"
+---
 
-notes:
-  - "✅ Proxy-ul din vite.config.js e doar pentru dezvoltare"
-  - "✅ În producție, folosește VITE_API_URL"
+## 🚀 Cum rulezi proiectul local
 
-contact:
-  method: "GitHub Issues"
-  link: "https://github.com"
+### 1. Clonează repository-ul
 
-footer: "📘 Proiect creat cu scop educațional și plăcere de a construi."
+```bash
+git clone https://github.com/username/library.git
+cd library
+```
+
+---
+
+### 2. Backend (Express + PostgreSQL / JSON)
+
+```bash
+cd backend
+npm install
+node app.js     # Rulează serverul Express
+```
+
+📎 Dacă folosești un seed script:
+```bash
+node seeds/seedBooks.js
+```
+
+---
+
+### 3. Frontend (React + Vite)
+
+```bash
+cd frontend
+npm install
+npm run dev     # Deschide aplicația în browser
+```
+
+---
+
+## 🌐 API Endpoints
+
+> Exemplu: `http://localhost:3000/api/books`
+
+| Metodă | Endpoint        | Descriere                     |
+|--------|------------------|-------------------------------|
+| GET    | `/api/books`     | Returnează toate cărțile      |
+| POST   | `/api/books`     | Adaugă o carte nouă           |
+| PUT    | `/api/books/:id` | Editează o carte existentă    |
+| DELETE | `/api/books/:id` | Șterge o carte                |
+
+---
+
+## 🛠 Tehnologii folosite
+
+- ⚙️ **Backend**: Node.js, Express.js, PostgreSQL / JSON fallback
+- ⚛️ **Frontend**: React + Vite
+- 🧪 **Testare**: (opțional) Jest / Mocha
+- 🗄️ **Persistență**: Local JSON sau PostgreSQL
+
+---
+
+## 💡 Funcționalități
+
+- [x] CRUD complet pentru cărți
+- [x] Persistență în JSON sau DB
+- [x] Interfață React prietenoasă
+- [x] Rute REST moderne
+- [ ] Validare de date
+- [ ] Autentificare (viitor)
+
+---
+
+## 🤝 Contribuție
+
+Orice PR e binevenit! Poți contribui la:
+- Refactorizare cod
+- Adăugare autentificare
+- Scriere de teste
+
+---
+
+## 📸 Screenshot
+
+> _(Adaugă aici un screenshot din aplicație când ai frontendul gata)_
+
+---
+
+## 📝 Licență
+
+MIT © [Numele tău]
