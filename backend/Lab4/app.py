@@ -22,9 +22,9 @@ if not os.path.isfile(DATA_FILE):
 def sync_with_database():
     try:
         subprocess.run(["node", "../seeds/seedBooks.js"], check=True, capture_output=True, text=True)
-        print("✅ Sincronizare cu DB realizata.")
+        print("Sincronizare cu DB realizata.")
     except subprocess.CalledProcessError as e:
-        print("❌ Eroare sincronizare DB:", e.stderr)
+        print("Eroare sincronizare DB:", e.stderr)
 
 def load_data():
     with open(DATA_FILE, "r", encoding="utf-8") as f:
@@ -34,7 +34,7 @@ def save_data(data):
     with open(DATA_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
-# 🔄 Detecteaza modificari externe in JSON
+# Detecteaza modificari externe in JSON
 class JSONChangeHandler(FileSystemEventHandler):
     def __init__(self, app):
         self.app = app
@@ -44,9 +44,9 @@ class JSONChangeHandler(FileSystemEventHandler):
             try:
                 self.app.data = load_data()
                 self.app.refresh_list()
-                print("🔄 JSON extern modificat. Aplicatia a fost actualizata.")
+                print("JSON extern modificat. Aplicatia a fost actualizata.")
             except Exception as e:
-                print("❌ Eroare la reincarcare JSON:", e)
+                print("Eroare la reincarcare JSON:", e)
 
 class CatalogApp:
     def __init__(self, root):
@@ -154,7 +154,7 @@ if __name__ == '__main__':
     root.geometry("800x500")
     app = CatalogApp(root)
 
-    # 🔄 Porneste watchdog
+    # Porneste watchdog
     event_handler = JSONChangeHandler(app)
     observer = Observer()
     observer.schedule(event_handler, path=os.path.dirname(DATA_FILE), recursive=False)
