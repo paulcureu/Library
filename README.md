@@ -36,6 +36,9 @@ git clone https://github.com/username/library.git
 cd library
 ```
 
+## 🚀 Link(Deploy in Railway(back-end + DB) si in Vercel(front en - React)
+
+https://library-kohl-rho.vercel.app/
 ---
 
 ### 2. Backend (Express + PostgreSQL / JSON)
@@ -80,7 +83,6 @@ npm run dev     # Deschide aplicația în browser
 
 - ⚙️ **Backend**: Node.js, Express.js, PostgreSQL / JSON fallback
 - ⚛️ **Frontend**: React + Vite
-- 🧪 **Testare**: (opțional) Jest / Mocha
 - 🗄️ **Persistență**: Local JSON sau PostgreSQL
 
 ---
@@ -91,26 +93,6 @@ npm run dev     # Deschide aplicația în browser
 - [x] Persistență în JSON sau DB
 - [x] Interfață React prietenoasă
 - [x] Rute REST moderne
-- [ ] Validare de date
-- [ ] Autentificare (viitor)
 
----
 
-## 🤝 Contribuție
 
-Orice PR e binevenit! Poți contribui la:
-- Refactorizare cod
-- Adăugare autentificare
-- Scriere de teste
-
----
-
-## 📸 Screenshot
-
-> _(Adaugă aici un screenshot din aplicație când ai frontendul gata)_
-
----
-
-## 📝 Licență
-
-MIT © [Numele tău]
