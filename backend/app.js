@@ -7,7 +7,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "http://library.balkancode.ro",
+      "https://library.balkancode.ro",
       "http://localhost:5173",
     ],
   })
