@@ -7,7 +7,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "https://library-kohl-rho.vercel.app",
+      "http://library.balkancode.ro",
       "http://localhost:5173",
     ],
   })
